@@ -22,7 +22,7 @@ def yuv_to_rgb(yuv):
 def rgb_to_yuv(rgb):
     """
     Coverts RGB coordinates to YUV
-    input: r,g,b coordinates
+    input: r,g,b coordinate
     output: y,u,v coordinates
     """
     r, g, b = rgb
