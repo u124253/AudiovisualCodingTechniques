@@ -32,7 +32,6 @@ def rgb_to_yuv(rgb):
     yuv1 = (y, u, v)
     return yuv1
 
-print("welcome to RGBYUV Tools")
 
 print(rgb_to_yuv((0, 0, 0)))
 
