@@ -49,34 +49,40 @@ class Slicer(FfmpegTools):
     def container(self):
         execute(f"ffmpeg -y -i {self.input_file} -ac 1 mp3_mono.mp3")
         #96kbps
-        execute(f"ffmpeg -i {self.input_file} -map 0:a:0 -b:a 96k mp3_stereo_96.mp3")
+        execute(f"ffmpeg -y -i {self.input_file} -map 0:a:0 -b:a 96k mp3_stereo_96.mp3")
         #flacc
-        execute("ffmpeg -i audio.xxx -c:a flac flac.flac")
+        execute(f"ffmpeg -y -i {self.input_file} -c:a aac aac_stereo.aac")
+
+        execute("ffmpeg -y -i BBB.mp4 -i mp3_mono.mp3 -i mp3_stereo_96.mp3 -i aac_stereo.aac -c:v copy -c:a:0 mp3 -c:a:1 mp3  -c:a:2 aac output_combined.mp4")
 
     def tracks_from_container(self):
         pass
 
-    def add_subtitles(self):
-        pass
+    def add_subtitles(self,subtitles):
+        execute(f"ffmpeg -i {self.input_file} -vf subtitles={subtitles} output_srt.mp4")
     def yuv_histogram(self):
-        pass
+        execute(f"ffplay {self.input_file} -vf split=2[a][b],[b]histogram,format=yuva444p[hh],[a][hh]overlay")
 
 
 # Instance of our class to convert to mpg
-tools_mpg = FfmpegTools("BBB.mp4", "BBB_out.mpg")
-tools_mpg.convert_to_codec()
+
+#tools_mpg = FfmpegTools("BBB.mp4", "BBB_out.mpg")
+#tools_mpg.convert_to_codec()
 
 # Call the call to change resolution
-tools_resize = FfmpegTools("BBB.mp4", "BBB_out_resized.mp4")
-tools_resize.change_resolution("480:320")
+
+#tools_resize = FfmpegTools("BBB.mp4", "BBB_out_resized.mp4")
+#tools_resize.change_resolution("480:320")
 
 # Call the function to chrom subsample
-tools_chroma_subsample = FfmpegTools("BBB.mp4", "BBB_out_subsampled.mp4")
-tools_chroma_subsample.chroma_subsample("yuv420p")
+
+#tools_chroma_subsample = FfmpegTools("BBB.mp4", "BBB_out_subsampled.mp4")
+#tools_chroma_subsample.chroma_subsample("yuv420p")
 
 # Call the function to print some interesting values
-tools_key_values = FfmpegTools("BBB.mp4", "BBB_out_resized.mp4")
-tools_key_values.print_key_values("width,height,r_frame_rate,bit_rate,codec_name,duration")
+
+#tools_key_values = FfmpegTools("BBB.mp4", "BBB_out_resized.mp4")
+#tools_key_values.print_key_values("width,height,r_frame_rate,bit_rate,codec_name,duration")
 
 
 
@@ -86,3 +92,5 @@ tools_key_values.print_key_values("width,height,r_frame_rate,bit_rate,codec_name
 # We create a instance of the new subclass derived from ffmpegtools
 tools_motionvecton = Slicer("BBB.mp4", "BBB_motionvector.mp4")
 tools_motionvecton.display_motion_vector("00","9")
+
+tools_motionvecton.yuv_histogram()
