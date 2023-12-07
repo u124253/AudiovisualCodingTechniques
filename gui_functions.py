@@ -140,7 +140,8 @@ class SimpleInterface(QWidget):
     def convert_operation(self):
         if self.file_path:
             print(
-                f"Convert operation triggered - File: {self.file_path}, Video format: {self.current_video_format}, Start time: {self.start_time}, Finish time: {self.finish_time}")
+                f"Convert operation triggered - File: {self.file_path}, Video format: {self.current_video_format}, "
+                f"Start time: {self.start_time}, Finish time: {self.finish_time}")
         else:
             print("Please select a file.")
 
