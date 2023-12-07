@@ -1,2 +1,2 @@
 # AudiovisualCodingTechniques
-![Alt text](/visual_resourves/gui.png?raw=true "Optional Title")
+![Alt text](/visual_resources/gui.png?raw=true "Optional Title")
